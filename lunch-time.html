@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN’S LUNCH TIME ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/lunch-time.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="lunch-time">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap lt-main">
+    <section class="hg-gameshell lt" id="game">
+      <div class="hg-gameshell__stage lt-stage" id="lt-stage">
+        <div class="lt-bg" aria-hidden="true"></div>
+
+        <div class="lt-play" id="lt-play" role="region" tabindex="-1" data-i18n-attr="aria-label:lunch.playArea">
+
+          <!-- ═══ HUD ═══ -->
+          <div class="lt-hud">
+            <div class="lt-hud__group">
+              <p class="hg-pill hg-pill--gold lt-pill lt-pill--score" id="lt-score-pill">
+                <span class="hg-pill__label" data-i18n="lunch.hud.score">SCORE</span>
+                <b class="hg-pill__value" id="lt-score">0</b>
+              </p>
+              <p class="hg-pill hg-pill--pink lt-pill lt-pill--combo" id="lt-combo-pill">
+                <span class="hg-pill__label" data-i18n="lunch.hud.combo">COMBO</span>
+                <b class="hg-pill__value" id="lt-combo">0</b>
+              </p>
+              <p class="hg-pill hg-pill--lavender lt-pill lt-pill--round">
+                <span class="hg-pill__label" data-i18n="lunch.hud.round">ROUND</span>
+                <b class="hg-pill__value" id="lt-round">0</b>
+              </p>
+            </div>
+            <div class="lt-hud__group lt-hud__group--right">
+              <p class="hg-pill hg-pill--lavender lt-pill lt-streak">
+                <span class="lt-streak__sheep" aria-hidden="true">🐑</span>
+                <span class="lt-streak__dots" id="lt-streak" role="img"></span>
+              </p>
+              <p class="hg-pill hg-pill--pink lt-pill lt-lives">
+                <span class="hg-pill__label lt-lives__label" data-i18n="lunch.hud.lives">LIFE</span>
+                <span class="lt-lives__hearts" id="lt-lives" role="img"></span>
+              </p>
+              <p class="hg-pill hg-pill--mint lt-pill lt-pill--best" id="lt-best-pill">
+                <span class="hg-pill__label" data-i18n="lunch.hud.best">BEST</span>
+                <b class="hg-pill__value" id="lt-best">0</b>
+              </p>
+              <button type="button" class="hg-iconbtn lt-pausebtn" id="lt-pause" aria-pressed="false"
+                      data-i18n-attr="aria-label:lunch.hud.pause;title:lunch.hud.pause">
+                <span class="hg-iconbtn__glyph" aria-hidden="true">❚❚</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ═══ Hamin · order · tray ═══ -->
+          <div class="lt-scene" id="lt-scene">
+            <div class="lt-hamin" id="lt-hamin" data-expr="neutral">
+              <div class="lt-hamin__frame" id="lt-face-frame">
+                <canvas class="lt-hamin__canvas" id="lt-face" width="320" height="320" role="img" aria-label="Hamin"></canvas>
+                <span class="lt-hamin__deco" aria-hidden="true"></span>
+                <div class="lt-hamin__fx" id="lt-fx" aria-hidden="true"></div>
+                <span class="lt-hamin__name" data-i18n="lunch.hamin" aria-hidden="true">HAMIN ♡</span>
+              </div>
+              <p class="lt-say" id="lt-say" aria-hidden="true"></p>
+            </div>
+
+            <section class="hg-window hg-window--pink lt-order" id="lt-order" aria-labelledby="lt-order-t">
+              <div class="hg-window__title">
+                <h2 class="hg-window__label" id="lt-order-t"><span data-i18n="lunch.order.title">ORDER</span> <span class="lt-order__no" id="lt-order-no"></span></h2>
+              </div>
+              <ul class="lt-order__list" id="lt-order-list"></ul>
+            </section>
+
+            <div class="lt-tray" id="lt-tray" aria-hidden="true">
+              <span class="lt-tray__tag" data-i18n="lunch.tray.title">TRAY ♡</span>
+              <div class="lt-tray__cells" id="lt-tray-cells"></div>
+            </div>
+          </div>
+
+          <!-- ═══ Timer ═══ -->
+          <div class="lt-timer" id="lt-timer" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"
+               data-i18n-attr="aria-label:lunch.timer">
+            <span class="lt-timer__icon" aria-hidden="true">⏰</span>
+            <span class="lt-timer__track"><span class="lt-timer__fill" id="lt-timer-fill"></span></span>
+          </div>
+
+          <!-- ═══ Lunch counter (conveyor) ═══ -->
+          <section class="lt-counter" aria-labelledby="lt-counter-t">
+            <div class="lt-counter__head">
+              <h2 class="lt-counter__title" id="lt-counter-t" data-i18n="lunch.counter.title">LUNCH COUNTER ♡</h2>
+              <span class="hg-badge hg-badge--hot lt-rush" id="lt-rush" data-i18n="lunch.counter.rush" hidden>RUSH! ▶▶</span>
+            </div>
+            <div class="lt-belt" id="lt-belt"></div>
+          </section>
+        </div>
+
+        <div class="lt-pops" id="lt-pops" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <p class="lt-tip">
+      <span class="hg-badge hg-badge--mint lt-tip__label" data-i18n="lunch.tip.label">TIP ♡</span>
+      <span data-i18n="lunch.tip.text">Change Hamin’s outfit in Dress Up — he wears it at lunch, too!</span>
+      <a class="lt-tip__link" href="dress-up.html" data-sfx="click" data-i18n="lunch.tip.link">Go to Dress Up ▶</a>
+    </p>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-lunch-time.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/look.js"></script>
+  <script src="js/lunch-time.js"></script>
+</body>
+</html>

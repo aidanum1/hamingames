@@ -1,0 +1,10 @@
+# Private research photos — copyrighted, NEVER publish
+research/hamin-reference/
+research/manual-reference-needed/
+# Raw generations (hundreds of MB) and build output
+art-source/
+neocities-deploy/
+# Local tooling / OS
+.claude/
+.DS_Store
+__pycache__/

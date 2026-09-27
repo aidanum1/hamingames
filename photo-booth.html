@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN PHOTO BOOTH ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/photo-booth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="photo-booth" data-bgm="dressup">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap pb">
+    <section class="hg-gameshell pb-shell" id="game">
+      <div class="hg-gameshell__stage pb-stage">
+        <div class="pb-layout">
+
+          <!-- ═══ The booth: marquee sign, screen (canvas), tools, print slot ═══ -->
+          <div class="pb-booth">
+            <div class="pb-booth__sign" aria-hidden="true">
+              <span class="pb-bulbs"></span>
+              <b class="pb-booth__name" data-i18n="photo.sign">♡ PHOTO BOOTH ♡</b>
+              <span class="pb-bulbs"></span>
+            </div>
+
+            <div class="pb-screen">
+              <div class="pb-fit" id="pb-fit">
+                <canvas class="pb-canvas" id="pb-canvas" role="application" tabindex="-1"
+                        aria-describedby="pb-canvas-help" data-i18n-attr="aria-roledescription:photo.canvas.role"></canvas>
+                <p class="hg-sr-only" id="pb-canvas-help" data-i18n="photo.canvas.help">Photo editor.</p>
+                <span class="pb-loading" id="pb-loading" hidden><span data-i18n="common.loading">LOADING…</span></span>
+                <div class="pb-count" id="pb-count" hidden aria-hidden="true"></div>
+                <div class="pb-flash" id="pb-flash" aria-hidden="true"></div>
+                <div class="pb-print" id="pb-print" hidden>
+                  <div class="pb-print__box hg-window">
+                    <div class="hg-window__title"><span class="hg-window__label" data-i18n="photo.save.printingTitle">PRINT.exe</span></div>
+                    <div class="pb-print__body">
+                      <p class="pb-print__text"><span class="pb-print__icon" aria-hidden="true">🖨️</span> <span data-i18n="photo.save.printing">PRINTING…</span></p>
+                      <div class="pb-print__bar" aria-hidden="true"><span class="pb-print__fill" id="pb-print-fill"></span></div>
+                      <p class="pb-print__pct" id="pb-print-pct" aria-hidden="true">0%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pb-tools" id="pb-tools" role="toolbar" data-i18n-attr="aria-label:photo.tools.label"></div>
+            <div class="pb-slot" aria-hidden="true"><span class="pb-slot__mouth"></span><span class="pb-slot__label" data-i18n="photo.slot">PHOTO ▼</span></div>
+          </div>
+
+          <!-- ═══ Steps + panel ═══ -->
+          <div class="pb-side">
+            <div class="pb-steps" id="pb-steps" role="tablist" data-i18n-attr="aria-label:photo.steps"></div>
+            <section class="hg-window hg-window--pink pb-panel" id="pb-panel" role="tabpanel">
+              <div class="hg-window__title">
+                <span class="pb-panel__icon" id="pb-panel-icon" aria-hidden="true">👕</span>
+                <h2 class="hg-window__label" id="pb-panel-title">STEP 1</h2>
+              </div>
+              <div class="pb-panel__body" id="pb-panel-body"></div>
+              <div class="pb-panel__nav">
+                <button type="button" class="hg-btn hg-btn--blue pb-nav-btn" id="pb-prev">
+                  <span aria-hidden="true">◀</span> <span data-i18n="photo.nav.prev">PREV</span>
+                </button>
+                <span class="pb-panel__pos" id="pb-pos">1 / 8</span>
+                <button type="button" class="hg-btn hg-btn--pink pb-nav-btn" id="pb-next">
+                  <span id="pb-next-label">NEXT</span> <span aria-hidden="true">▶</span>
+                </button>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-photo-booth.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/look.js"></script>
+  <script src="js/photo-booth.js"></script>
+</body>
+</html>

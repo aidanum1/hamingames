@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN’S ROOM ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="preload" as="image" href="assets/room/bg-room.webp">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/my-room.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="my-room">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap mr">
+    <section class="hg-gameshell mr-shell" id="game">
+      <div class="hg-gameshell__stage mr-stage">
+
+        <!-- ═══ Room toolbar: EDIT / VIEW · status · Hamin · reset · SAVE ROOM ♡ ═══ -->
+        <div class="mr-bar">
+          <div class="mr-mode" role="group" data-i18n-attr="aria-label:myRoom.mode.label">
+            <button type="button" class="mr-mode__btn" id="mr-mode-edit" aria-pressed="true" data-sfx-hover="hover">
+              <span class="mr-mode__icon" aria-hidden="true">✎</span>
+              <span data-i18n="myRoom.mode.edit">EDIT</span>
+            </button>
+            <button type="button" class="mr-mode__btn" id="mr-mode-view" aria-pressed="false" data-sfx-hover="hover">
+              <span class="mr-mode__icon" aria-hidden="true">👀</span>
+              <span data-i18n="myRoom.mode.view">VIEW</span>
+            </button>
+          </div>
+          <div class="mr-bar__right">
+            <button type="button" class="hg-btn hg-btn--mint mr-bar__btn" id="mr-hamin-btn" aria-pressed="true"
+                    data-i18n-attr="aria-label:myRoom.hamin.label;title:myRoom.hamin.label" data-sfx-hover="hover">
+              <span class="mr-bar__icon" aria-hidden="true">🧑</span>
+              <span class="mr-bar__label" data-i18n="myRoom.hamin.toggle">HAMIN</span>
+            </button>
+            <button type="button" class="hg-btn mr-bar__btn" id="mr-reset-btn"
+                    data-i18n-attr="aria-label:myRoom.resetLabel;title:myRoom.resetLabel" data-sfx-hover="hover">
+              <span class="mr-bar__icon" aria-hidden="true">↺</span>
+              <span class="mr-bar__label" data-i18n="myRoom.reset">RESET</span>
+            </button>
+            <button type="button" class="hg-btn hg-btn--pink mr-save" id="mr-save-btn" data-sfx-hover="hover">
+              <span data-i18n="myRoom.save">SAVE ROOM ♡</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mr-layout" id="mr-layout">
+          <!-- ═══ The room (16:10) in a retro window ═══ -->
+          <div class="mr-roomcol">
+            <div class="hg-window hg-window--pink mr-roomwin">
+              <div class="hg-window__title"><span class="hg-window__label" data-i18n="myRoom.roomTitle">♡ HAMIN’S MINI-ROOM ♡</span></div>
+              <div class="mr-room is-edit" id="mr-room" role="group"
+                   data-i18n-attr="aria-label:myRoom.roomLabel" aria-describedby="mr-room-help">
+                <img class="mr-room__bg" id="mr-room-bg" src="assets/room/bg-room.webp" alt="" draggable="false" decoding="async">
+                <div class="mr-zone" id="mr-zone" aria-hidden="true"></div>
+                <div class="mr-room__items" id="mr-items"></div>
+                <div class="mr-night" aria-hidden="true"></div>
+                <div class="mr-fx" id="mr-fx" aria-hidden="true"></div>
+                <div class="mr-flash" id="mr-flash" aria-hidden="true"></div>
+              </div>
+              <div class="mr-status">
+                <span class="mr-status__mode" id="mr-status-mode">✎ EDIT MODE</span>
+                <span class="mr-status__items" id="mr-status-items"></span>
+                <span class="mr-status__counter" id="mr-status-counter"></span>
+              </div>
+            </div>
+            <p class="hg-sr-only" id="mr-room-help"></p>
+          </div>
+
+          <!-- ═══ Side: inventory (EDIT) / room profile (VIEW) ═══ -->
+          <aside class="mr-side">
+            <section class="hg-window hg-window--lavender mr-inv" id="mr-inv" aria-labelledby="mr-inv-title">
+              <div class="hg-window__title mr-inv__bar">
+                <h2 class="hg-window__label" id="mr-inv-title"><span data-i18n="myRoom.inv.title">MY ITEMS ♡</span></h2>
+              </div>
+              <button type="button" class="mr-sheet-toggle" id="mr-sheet-toggle" aria-expanded="false" aria-controls="mr-inv-body">
+                <span class="mr-sheet-toggle__grip" aria-hidden="true"></span>
+                <span class="mr-sheet-toggle__title" data-i18n="myRoom.inv.title">MY ITEMS ♡</span>
+                <span class="mr-sheet-toggle__count" id="mr-sheet-count"></span>
+                <span class="mr-sheet-toggle__chev" aria-hidden="true">▲</span>
+              </button>
+              <div class="mr-inv__body" id="mr-inv-body">
+                <div class="mr-cats" id="mr-cats" role="tablist" data-i18n-attr="aria-label:myRoom.inv.cats"></div>
+                <p class="mr-inv__head">
+                  <b class="mr-inv__cat" id="mr-inv-cat"></b>
+                  <span class="mr-inv__count" id="mr-inv-count"></span>
+                </p>
+                <div class="mr-inv__panel" id="mr-inv-panel" role="tabpanel" aria-labelledby="mr-inv-cat">
+                  <ul class="mr-tiles" id="mr-tiles"></ul>
+                </div>
+                <p class="mr-inv__hint" id="mr-inv-hint">Tap or drag into the room ♡</p>
+              </div>
+              <div class="mr-inv__drop" aria-hidden="true"><span data-i18n="myRoom.inv.dropHint">Drop here to put it away ♡</span></div>
+            </section>
+
+            <section class="hg-window hg-window--gold mr-info" id="mr-info" aria-labelledby="mr-info-title" hidden>
+              <div class="hg-window__title"><h2 class="hg-window__label" id="mr-info-title" data-i18n="myRoom.info.title">ROOM PROFILE ♡</h2></div>
+              <div class="mr-info__body">
+                <div class="mr-info__top">
+                  <div class="mr-info__pic" id="mr-info-pic" aria-hidden="true"></div>
+                  <div class="mr-info__mood">
+                    <p class="mr-info__label" data-i18n="myRoom.info.mood">TODAY’S MOOD</p>
+                    <p class="mr-info__moodval" id="mr-info-mood"></p>
+                  </div>
+                </div>
+                <p class="mr-info__line" id="mr-info-owned"></p>
+                <div class="hg-meter hg-meter--gold mr-info__meter" aria-hidden="true"><div class="hg-meter__fill" id="mr-info-meter"></div></div>
+                <p class="mr-info__line" id="mr-info-placed"></p>
+                <p class="mr-info__tip" data-i18n="myRoom.info.tip">Click the lamp, CD player, window, clock and more to play!</p>
+                <button type="button" class="hg-btn hg-btn--pink hg-btn--block" id="mr-decorate-btn" data-i18n="myRoom.info.decorate">✎ DECORATE</button>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-my-room.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/look.js"></script>
+  <script src="js/my-room.js"></script>
+</body>
+</html>

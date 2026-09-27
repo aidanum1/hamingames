@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>RUN, HAMIN! ♡ HAMIN GAMES ★</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/run-hamin.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="run-hamin">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap rh">
+    <section id="game" class="rh-game">
+      <div class="hg-gameshell__stage rh-stage" id="rh-stage">
+
+        <!-- ═══ HUD (overlays the canvas on desktop, becomes a strip on phones) ═══ -->
+        <div class="hg-hud rh-hud" id="rh-hud">
+          <div class="hg-hud__group rh-hud__stats">
+            <span class="hg-pill hg-pill--pink rh-pill rh-pill--dist">
+              <span class="hg-pill__label" data-i18n="run.hud.distance">DIST</span>
+              <span class="hg-pill__value" id="rh-dist">0 m</span>
+            </span>
+            <span class="hg-pill hg-pill--gold rh-pill" data-i18n-attr="title:run.hud.stars">
+              <span class="rh-pill__icon" aria-hidden="true">★</span>
+              <span class="hg-sr-only" data-i18n="run.hud.stars">STARS</span>
+              <span class="hg-pill__value" id="rh-stars">0</span>
+            </span>
+            <span class="hg-pill hg-pill--mint rh-pill" data-i18n-attr="title:run.hud.snacks">
+              <span class="rh-pill__icon" aria-hidden="true">🍪</span>
+              <span class="hg-sr-only" data-i18n="run.hud.snacks">SNACKS</span>
+              <span class="hg-pill__value" id="rh-snacks">0</span>
+            </span>
+          </div>
+
+          <div class="rh-gap" id="rh-gap" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="60"
+               data-i18n-attr="aria-label:run.hud.gapLabel;title:run.hud.gapLabel">
+            <span class="rh-gap__label" aria-hidden="true" data-i18n="run.hud.puppy">PUPPY</span>
+            <span class="rh-gap__track" aria-hidden="true">
+              <span class="rh-gap__fill"></span>
+              <span class="rh-gap__pup">🐶</span>
+            </span>
+            <span class="rh-gap__ham" aria-hidden="true" data-i18n="run.hud.hamin">HAMIN</span>
+          </div>
+
+          <div class="hg-hud__group rh-hud__right">
+            <span class="hg-pill hg-pill--lavender rh-pill rh-combo" id="rh-combo-pill">
+              <span class="hg-pill__label" data-i18n="shell.combo">COMBO</span>
+              <span class="hg-pill__value" id="rh-combo">×1</span>
+            </span>
+            <button type="button" class="hg-iconbtn rh-pausebtn" id="rh-pause-btn" data-sfx="click"
+                    data-i18n-attr="aria-label:shell.pause;title:shell.pause">
+              <span class="hg-iconbtn__glyph" aria-hidden="true">❚❚</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ═══ Canvas frame (16:9) ═══ -->
+        <div class="rh-frame" id="rh-frame">
+          <canvas class="hg-stage-canvas rh-canvas" id="rh-canvas" width="960" height="540" tabindex="0" role="application"
+                  aria-describedby="rh-sr-controls" data-i18n-attr="aria-label:run.canvasLabel"></canvas>
+          <p class="hg-sr-only" id="rh-sr-controls" data-i18n="run.srControls">Space or Up: jump. Down: duck. P: pause.</p>
+          <div class="rh-pows" id="rh-pows" aria-hidden="true"></div>
+          <div class="rh-alerts" id="rh-alerts" aria-hidden="true"></div>
+          <div class="rh-banner" id="rh-banner" aria-hidden="true" hidden>
+            <span class="rh-banner__no" id="rh-banner-no"></span>
+            <span class="rh-banner__name" id="rh-banner-name"></span>
+          </div>
+        </div>
+
+        <!-- ═══ Touch deck (touch devices / phones) ═══ -->
+        <div class="rh-deck" id="rh-deck">
+          <button type="button" class="hg-touch-btn hg-touch-btn--mint hg-touch-btn--wide rh-deck__btn rh-deck__btn--duck" id="rh-btn-duck"
+                  data-i18n-attr="aria-label:run.touch.duckLabel">
+            <span class="hg-touch-btn__icon" aria-hidden="true">▼</span>
+            <span class="rh-deck__label" data-i18n="run.touch.duck" aria-hidden="true">DUCK</span>
+          </button>
+          <button type="button" class="hg-touch-btn hg-touch-btn--pink hg-touch-btn--wide rh-deck__btn rh-deck__btn--jump" id="rh-btn-jump"
+                  data-i18n-attr="aria-label:run.touch.jumpLabel">
+            <span class="hg-touch-btn__icon" aria-hidden="true">▲</span>
+            <span class="rh-deck__label" data-i18n="run.touch.jump" aria-hidden="true">JUMP</span>
+          </button>
+        </div>
+
+        <!-- ═══ Start screen ═══ -->
+        <div class="hg-overlay rh-overlay rh-overlay--start" id="rh-start" hidden>
+          <div class="hg-start rh-start" role="group" aria-labelledby="rh-start-title">
+            <div class="rh-start__art" id="rh-start-art" aria-hidden="true">
+              <span class="rh-start__pup" id="rh-start-dog"></span>
+              <span class="rh-start__dots">· · · ♡ · · ·</span>
+              <span class="rh-start__ham" id="rh-start-ham"></span>
+            </div>
+            <h2 class="hg-start__title rh-start__title" id="rh-start-title" data-i18n="run.start.title">RUN HAMIN RUN!</h2>
+            <p class="hg-start__desc rh-start__desc" data-i18n="run.start.desc">A super friendly puppy wants to play!</p>
+            <ul class="rh-keys" aria-label="controls" data-i18n-attr="aria-label:shell.controls">
+              <li class="rh-keys__item rh-keys__item--kbd">
+                <span class="hg-key">SPACE</span><span class="hg-key">↑</span>
+                <span data-i18n="run.start.jump">JUMP (hold = higher)</span>
+              </li>
+              <li class="rh-keys__item rh-keys__item--kbd">
+                <span class="hg-key">↓</span>
+                <span data-i18n="run.start.duck">DUCK / SLIDE</span>
+              </li>
+              <li class="rh-keys__item rh-keys__item--kbd">
+                <span class="hg-key">P</span><span class="hg-key">Esc</span>
+                <span data-i18n="shell.pause">PAUSE</span>
+              </li>
+              <li class="rh-keys__item rh-keys__item--touch">
+                <span class="rh-keys__glyph" aria-hidden="true">👆</span>
+                <span data-i18n="run.start.touch">Tap = jump · Swipe down = duck</span>
+              </li>
+            </ul>
+            <p class="rh-start__best" id="rh-start-best"></p>
+            <div class="hg-start__actions">
+              <button type="button" class="hg-btn hg-btn--pink hg-btn--big rh-start__go" id="rh-start-btn" data-i18n="run.start.button">START ▶</button>
+              <button type="button" class="hg-btn hg-btn--blue" id="rh-help-btn" data-sfx="click" data-i18n="shell.tutorial">HOW TO PLAY</button>
+            </div>
+            <p class="rh-start__load" id="rh-start-load" aria-hidden="true"></p>
+          </div>
+        </div>
+
+        <!-- ═══ Countdown ═══ -->
+        <div class="hg-countdown rh-countdown" id="rh-countdown" aria-hidden="true" hidden></div>
+
+        <!-- ═══ Pause ═══ -->
+        <div class="hg-overlay hg-overlay--dim rh-overlay" id="rh-pause" hidden>
+          <div class="hg-window hg-window--pink hg-pause rh-pause" role="dialog" aria-modal="false" aria-labelledby="rh-pause-title">
+            <div class="hg-window__title"><h2 class="hg-window__label" id="rh-pause-title" data-i18n="shell.paused">PAUSED</h2></div>
+            <p class="hg-pause__title rh-pause__big" aria-hidden="true">❚❚</p>
+            <p class="rh-pause__hint" data-i18n="run.pause.hint">The puppy is waiting too ♡</p>
+            <div class="hg-pause__actions">
+              <button type="button" class="hg-btn hg-btn--pink hg-btn--big" id="rh-resume-btn" data-i18n="shell.resume">RESUME</button>
+              <button type="button" class="hg-btn hg-btn--blue" id="rh-restart-btn" data-sfx="click" data-i18n="shell.restart">RESTART</button>
+              <button type="button" class="hg-btn" id="rh-quit-btn" data-sfx="click" data-i18n="shell.quit">QUIT</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ Result ═══ -->
+        <div class="hg-overlay rh-overlay rh-overlay--result" id="rh-result" hidden>
+          <div class="hg-result rh-result" role="dialog" aria-modal="false" aria-labelledby="rh-result-title" aria-describedby="rh-result-line">
+            <div class="hg-result__head rh-result__head">
+              <span class="rh-result__pup" aria-hidden="true" id="rh-result-pup"></span>
+              <h2 class="hg-result__title rh-result__title" id="rh-result-title" data-i18n="run.over.title">GOTCHA! ♡</h2>
+              <p class="rh-result__line" id="rh-result-line" data-i18n="run.over.line1">The puppy just wanted to play! ♡</p>
+            </div>
+            <p class="rh-result__recordwrap" id="rh-result-record" hidden>
+              <span class="hg-result__record" data-i18n="shell.newRecord">NEW RECORD!</span>
+            </p>
+            <dl class="hg-result__rows rh-result__rows">
+              <div class="hg-result__row rh-result__row--main">
+                <dt class="hg-result__label" data-i18n="shell.distance">DISTANCE</dt>
+                <dd class="hg-result__value" id="rh-r-dist">0 m</dd>
+              </div>
+              <div class="hg-result__row">
+                <dt class="hg-result__label"><span aria-hidden="true">★ </span><span data-i18n="run.over.stars">STARS</span></dt>
+                <dd class="hg-result__value" id="rh-r-stars">0</dd>
+              </div>
+              <div class="hg-result__row">
+                <dt class="hg-result__label"><span aria-hidden="true">🍪 </span><span data-i18n="run.over.snacks">SNACKS</span></dt>
+                <dd class="hg-result__value" id="rh-r-snacks">0</dd>
+              </div>
+              <div class="hg-result__row">
+                <dt class="hg-result__label" data-i18n="run.over.stage">FARTHEST STAGE</dt>
+                <dd class="hg-result__value rh-result__stage" id="rh-r-stage"></dd>
+              </div>
+              <div class="hg-result__row">
+                <dt class="hg-result__label"><span aria-hidden="true">👑 </span><span data-i18n="shell.best">BEST</span></dt>
+                <dd class="hg-result__value" id="rh-r-best">0 m</dd>
+              </div>
+            </dl>
+            <p class="hg-result__earned" id="rh-r-earned"></p>
+            <div class="rh-result__unlockbox" id="rh-r-unlockbox" hidden>
+              <p class="rh-result__unlocktitle" data-i18n="shell.unlocked">UNLOCKED!</p>
+              <div class="hg-result__unlocks" id="rh-r-unlocks"></div>
+            </div>
+            <div class="hg-result__actions">
+              <button type="button" class="hg-btn hg-btn--pink hg-btn--big" id="rh-retry-btn" data-i18n="run.over.retry">RETRY ♡</button>
+              <a class="hg-btn hg-btn--blue hg-btn--big" href="index.html" data-sfx="click" data-i18n="shell.back">BACK</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p class="hg-rotate-hint rh-rotate" data-i18n="shell.rotate">Turn your phone sideways for a bigger screen!</p>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-run-hamin.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/run-hamin.js"></script>
+</body>
+</html>

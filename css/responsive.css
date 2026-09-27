@@ -1,0 +1,151 @@
+/* HAMIN GAMES — css/responsive.css  (load LAST)
+   ≤1024 tablet · ≤720 mobile (compact header + fixed bottom tab bar) · ≤380 small.
+   Plus touch-pointer rules (≥44px targets) at any width.
+   Retro identity stays (patterns, bevels, bubbles); heavy decoration is trimmed. */
+
+/* ═════════════ Tablet ≤1024px ═════════════ */
+@media (max-width: 1024px) {
+  :root { --gutter: 12px; }
+  .hg-logo__text { font-size: 30px; }
+  .hg-header__banner::before { left: 40%; }
+  .hg-grid--4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hg-gameshell__stage { min-height: 400px; }
+}
+
+/* ═════════════ Touch pointers (any width) ═════════════ */
+@media (pointer: coarse) {
+  .hg-btn { min-height: var(--tap); padding-inline: 16px; }
+  .hg-btn--small { min-height: 36px; }
+  .hg-iconbtn { width: var(--tap); height: var(--tap); font-size: 18px; }
+  .hg-tab { min-height: var(--tap); padding-inline: 12px; }
+  .hg-seg__btn { min-height: var(--tap); padding-inline: 14px; }
+  .hg-lang__btn { min-height: var(--tap); min-width: var(--tap); padding-inline: 8px; }
+  .hg-nav__link { min-height: var(--tap); }
+  .hg-hpoint { min-height: 36px; }
+  .hg-sticker-btn { width: 56px; height: 56px; }
+  .hg-check__input { width: 26px; height: 26px; }
+  .hg-check__label { padding: 10px 0; }
+  .hg-window__close { width: 32px; height: 32px; margin-top: -16px; }
+  .hg-window__title--closable { padding-right: 44px; min-height: 40px; }
+  .hg-hidden-sheep { min-width: var(--tap); min-height: var(--tap); }
+  .hg-visitor { min-height: var(--tap); }
+  .hg-range { height: var(--tap); }
+  /* Controls that stay visually compact (small buttons, ✕, H-POINT badge) get an
+     invisible hit area of at least 44×44px (contract §4), centered on the control. */
+  .hg-hpoint { position: relative; }
+  .hg-btn--small::after,
+  .hg-window__close::after,
+  .hg-hpoint::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: var(--tap);
+    min-height: var(--tap);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ═════════════ Mobile ≤720px ═════════════ */
+@media (max-width: 720px) {
+  :root { --gutter: 16px; }
+  body {
+    font-size: 13px;
+    padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+    background-size: 24px 24px, 24px 24px, 24px 24px;
+    background-position: 6px 6px, 18px 18px, 0 0;
+  }
+
+  /* Compact header: logo + tools on row 1, language strip on row 2, nav → bottom tab bar */
+  #hg-header { margin: 0; padding: 0; }
+  .hg-header { border-width: 0 0 2px; border-radius: 0 0 var(--radius-l) var(--radius-l); }
+  .hg-header__banner { flex-wrap: wrap; gap: 6px 8px; padding: 8px 10px 10px; }
+  .hg-header__banner::before { display: none; }
+  .hg-header__banner::after { display: none; }
+  .hg-header__brand { flex: 1 1 auto; }
+  .hg-header__tagline { display: none; }
+  .hg-header__tools { display: contents; }
+  .hg-header__row { order: 1; gap: 4px; }
+  .hg-lang { order: 2; flex: 1 1 100%; justify-content: center; padding: 0 6px; }
+  .hg-logo { padding: 0; gap: 2px; }
+  .hg-logo__text { font-size: 20px; -webkit-text-stroke-width: 1px; }
+  .hg-logo__star { font-size: 14px; }
+  .hg-iconbtn { width: var(--tap); height: var(--tap); font-size: 18px; }
+  .hg-hpoint { min-height: 36px; }
+  .hg-hpoint__label { display: none; }
+  .hg-nav { display: none; }
+  .hg-tabbar { display: block; }
+
+  /* Footer sits above the tab bar */
+  #hg-footer { margin: 12px auto 12px; }
+  .hg-footer__box { padding: 10px; }
+  .hg-footer__love { letter-spacing: 1px; }
+
+  /* Popups: top of the screen, one at a time */
+  .hg-popups {
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    width: min(340px, calc(100vw - 16px));
+    transform: translateX(-50%);
+  }
+  .hg-toast { bottom: calc(var(--tabbar-h) + 12px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Modals use the whole width */
+  .hg-modal-backdrop { padding: 8px; align-items: flex-end; }
+  .hg-modal { max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
+  .hg-modal__foot { justify-content: stretch; }
+  .hg-modal__foot .hg-btn { flex: 1 1 auto; }
+  .hg-settings__row--range { grid-template-columns: 1fr 48px; }
+  .hg-settings__row--range .hg-settings__label { grid-column: 1 / -1; }
+
+  /* Components */
+  .hg-grid { --grid-min: 130px; --grid-gap: 8px; }
+  .hg-grid--3, .hg-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hg-card:hover, a.hg-card:hover { transform: none; }
+  .hg-panel-header { font-size: var(--fs-s); }
+  .hg-tabs { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .hg-tabs::-webkit-scrollbar { display: none; }
+  .hg-tab { flex: none; }
+
+  /* Game shell (pages with a shell drop the language strip on phones; it stays in ⚙ settings) */
+  .hg-has-gameshell .hg-lang { display: none; }
+  .hg-gameshell { margin: 4px 0 8px; border-radius: var(--radius-m); }
+  .hg-gameshell__bar { gap: 4px; padding: 4px 6px; }
+  .hg-gameshell__title { font-size: var(--fs-m); justify-content: flex-start; }
+  .hg-gameshell__tools { gap: 3px; }
+  .hg-gameshell__stage { min-height: 360px; }
+  .hg-gameshell__back { padding-inline: 10px; }
+  .hg-hpoint--mini { display: none; }
+  .hg-countdown__num { font-size: 84px; }
+  .hg-result__title { font-size: 30px; }
+  .hg-result__stars { font-size: 34px; }
+  .hg-start__title { font-size: 24px; }
+}
+
+/* ═════════════ Small ≤380px ═════════════ */
+@media (max-width: 380px) {
+  :root { --gutter: 12px; }
+  .hg-logo__text { font-size: 17px; }
+  .hg-logo__star { font-size: 12px; }
+  .hg-header__banner { padding-inline: 8px; }
+  .hg-lang__label { display: none; }
+  .hg-lang__btn { padding-inline: 5px; min-width: 40px; }
+  .hg-tabbar__label { font-size: 9px; }
+  .hg-tabbar__icon { font-size: 18px; }
+  .hg-grid { --grid-min: 120px; }
+  .hg-gameshell__back-label { display: none; }
+  .hg-gameshell__icon { display: none; }
+  .hg-touch-btn { width: 58px; height: 58px; }
+  .hg-touch-btn--wide { width: 84px; }
+  .hg-result__rows { padding-inline: 10px; }
+}
+
+/* Short landscape phones: keep game controls reachable */
+@media (max-height: 460px) and (orientation: landscape) {
+  .hg-gameshell__stage { min-height: 260px; }
+  .hg-countdown__num { font-size: 64px; }
+}

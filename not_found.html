@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* Neocities serves this page AT the missing address (e.g. /some/deep/path), so plain
+       relative URLs would point into a folder that does not exist. Before any stylesheet
+       or script loads, add a <base> that climbs back to the site root with "../" steps.
+       Nothing happens at the root, on file:// (double-clicked) or without JS — every link
+       below is written relative to the site root, so those cases already work. */
+    (function () {
+      try {
+        var l = window.location;
+        if (l.protocol !== 'http:' && l.protocol !== 'https:') return;
+        var depth = l.pathname.split('/').length - 2;
+        if (depth < 1) return;
+        var b = document.createElement('base');
+        b.setAttribute('href', new Array(depth + 1).join('../'));
+        document.head.appendChild(b);
+        document.documentElement.setAttribute('data-hg-base', '1');
+      } catch (e) { /* keep plain relative links */ }
+    })();
+  </script>
+  <title>PAGE NOT FOUND ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    /* 404-only styles (kept inline so this page needs no extra file). Tokens from base.css. */
+    .nf { padding-block: 16px 6px; }
+    .nf-window { max-width: 780px; margin: 6px auto 0; }
+    .nf-body {
+      display: grid;
+      grid-template-columns: 236px minmax(0, 1fr);
+      gap: 20px;
+      padding: 20px;
+      background-color: var(--c-blush);
+      background-image:
+        radial-gradient(var(--c-pink) 18%, transparent 20%),
+        radial-gradient(var(--c-white) 14%, transparent 16%);
+      background-size: 16px 16px;
+      background-position: 0 0, 8px 8px;
+    }
+    .nf-art { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .nf-code { display: flex; gap: 5px; }
+    .nf-code__d {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 72px;
+      border: 2px solid var(--c-cherry-dark);
+      border-radius: var(--radius-l);
+      background: var(--gloss), linear-gradient(180deg, var(--c-pink-deep) 0%, var(--c-cherry) 100%);
+      box-shadow: var(--bevel-light), 0 4px 0 var(--c-cherry-dark);
+      color: var(--c-white);
+      font: 900 50px/1 var(--font-title);
+      text-shadow: 0 2px 0 var(--c-cherry-dark);
+      animation: hg-float 2.4s ease-in-out infinite;
+    }
+    .nf-code__d:nth-child(2) {
+      border-color: var(--c-blue-deep);
+      background: var(--gloss), linear-gradient(180deg, var(--c-powder) 0%, var(--c-powder-deep) 100%);
+      box-shadow: var(--bevel-light), 0 4px 0 var(--c-blue-deep);
+      text-shadow: 0 2px 0 var(--c-blue-deep);
+      animation-delay: 0.3s;
+    }
+    .nf-code__d:nth-child(3) { animation-delay: 0.6s; }
+    .nf-hamin {
+      position: relative;
+      width: 168px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 3px solid var(--c-white);
+      border-radius: 50%;
+      background: conic-gradient(var(--c-sky) 25%, var(--c-white) 0 50%, var(--c-sky) 0 75%, var(--c-white) 0) 0 0 / 16px 16px;
+      box-shadow: 0 0 0 2px var(--c-pink-deep), var(--shadow-pop);
+      cursor: pointer;
+    }
+    .nf-hamin:hover { box-shadow: 0 0 0 2px var(--c-cherry), var(--shadow-pop); }
+    .nf-hamin.is-hop { animation: hg-hop 0.55s ease-out; }
+    .nf-hamin__img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; }
+    .nf-hamin__img.is-fallback { padding: 18%; object-position: 50% 50%; }
+    .nf-bubble {
+      position: relative;
+      max-width: 230px;
+      margin: 0;
+      padding: 7px 11px;
+      border: 2px solid var(--c-pink-deep);
+      border-radius: var(--radius-l);
+      background: var(--c-white);
+      box-shadow: 2px 3px 0 var(--c-pink);
+      font-size: var(--fs-s);
+      font-weight: bold;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .nf-bubble::before, .nf-bubble::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      border-style: solid;
+      border-color: transparent;
+    }
+    .nf-bubble::before { top: -12px; margin-left: -7px; border-width: 0 7px 12px; border-bottom-color: var(--c-pink-deep); }
+    .nf-bubble::after { top: -8px; margin-left: -5px; border-width: 0 5px 9px; border-bottom-color: var(--c-white); }
+    .nf-info { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+    .nf-errcode {
+      align-self: flex-start;
+      margin: 0;
+      padding: 1px 9px;
+      border-radius: var(--radius-s);
+      background: var(--c-ink);
+      color: var(--c-mint);
+      font: bold var(--fs-xs)/1.6 var(--font-digit);
+      letter-spacing: 2px;
+    }
+    .nf-heading {
+      margin: 0;
+      font: 900 30px/1.15 var(--font-title);
+      color: var(--c-cherry);
+      text-shadow: 0 2px 0 var(--c-white), 0 4px 0 var(--c-pink-deep);
+    }
+    .nf-lead { margin: 0; font-size: var(--fs-m); font-weight: bold; }
+    .nf-text { margin: 0; font-size: var(--fs-s); line-height: 1.65; color: var(--c-ink-soft); }
+    .nf-url { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; font-size: var(--fs-xs); }
+    .nf-url__label { padding: 0 6px; border: 1px solid var(--c-silver-deep); border-radius: var(--radius-s); background: var(--c-silver); font-weight: bold; }
+    .nf-url__value {
+      flex: 1;
+      min-width: 0;
+      padding: 2px 7px;
+      border: 1px solid var(--c-silver-deep);
+      background: var(--c-white);
+      box-shadow: inset 1px 1px 2px var(--c-shade);
+      font: var(--fs-xs)/1.6 var(--font-digit);
+      overflow-wrap: anywhere;
+    }
+    .nf-search { display: flex; flex-direction: column; gap: 3px; font-size: var(--fs-xs); font-weight: bold; color: var(--c-lavender-dark); }
+    .nf-search__bar {
+      display: block;
+      height: 16px;
+      padding: 2px;
+      border: 1px solid var(--c-lavender-deep);
+      border-radius: var(--radius-s);
+      background: var(--c-white);
+      box-shadow: inset 1px 1px 2px var(--c-shade);
+    }
+    .nf-search__fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      background-image: var(--gloss), repeating-linear-gradient(90deg, var(--c-lavender-deep) 0 7px, transparent 7px 9px);
+      transition: width 1.8s steps(14, end);
+    }
+    .nf-search.is-done { color: var(--c-cherry-dark); }
+    .nf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
+    @media (max-width: 720px) {
+      .nf { padding-top: 10px; }
+      .nf-body { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px; }
+      .nf-code__d { width: 50px; height: 62px; font-size: 42px; }
+      .nf-hamin { width: 136px; }
+      .nf-heading { font-size: 24px; }
+      .nf-actions .hg-btn { flex: 1 1 auto; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="not-found">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap nf">
+    <section class="hg-window hg-window--pink nf-window" aria-labelledby="nf-heading">
+      <div class="hg-window__title"><span class="hg-window__label" data-i18n="notFound.title">ERROR ♡ page_not_found.exe</span></div>
+      <div class="nf-body">
+        <div class="nf-art">
+          <span class="nf-code" aria-hidden="true"><span class="nf-code__d">4</span><span class="nf-code__d">0</span><span class="nf-code__d">4</span></span>
+          <button type="button" class="nf-hamin" id="nf-hamin" data-i18n-attr="aria-label:home.today.tap"></button>
+          <p class="nf-bubble" id="nf-bubble" aria-live="polite" data-i18n="notFound.line1">Huh? Where did the page go?!</p>
+        </div>
+
+        <div class="nf-info">
+          <p class="nf-errcode" data-i18n="notFound.code">ERROR 404</p>
+          <h1 class="nf-heading" id="nf-heading" data-i18n="notFound.heading">PAGE NOT FOUND ♡</h1>
+          <p class="nf-lead" data-i18n="notFound.lead">Oops! This page wandered off somewhere…</p>
+          <p class="nf-text" data-i18n="notFound.text">The page you’re looking for doesn’t exist, or it’s still being drawn. Let’s go back and play together!</p>
+          <p class="nf-url"><span class="nf-url__label" data-i18n="notFound.url">ADDRESS</span> <code class="nf-url__value" id="nf-url"></code></p>
+          <div class="nf-search" id="nf-search" aria-hidden="true">
+            <span id="nf-search-label" data-i18n="notFound.searching">Searching everywhere…</span>
+            <span class="nf-search__bar"><span class="nf-search__fill" id="nf-search-fill"></span></span>
+          </div>
+          <div class="nf-actions">
+            <a class="hg-btn hg-btn--pink hg-btn--big" href="index.html" data-sfx="click" data-i18n="notFound.home">GO HOME ♡</a>
+            <a class="hg-btn hg-btn--blue" href="index.html#games" data-sfx="click" data-i18n="notFound.games">GAME LIST</a>
+            <a class="hg-btn hg-btn--lavender" href="collection.html" data-sfx="click" data-i18n="notFound.collection">COLLECTION</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-home.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    /* 404 page behaviour: surprised Hamin with a few lines, the address that was not
+       found, a faux "searching…" bar. Strings: notFound.* in data/translations-home.js. */
+    (function (HG, win, doc) {
+      'use strict';
+      var LINES = ['notFound.line1', 'notFound.line2', 'notFound.line3'];
+
+      function t(k, p) { return HG.t ? HG.t(k, p) : k; }
+      function reduced() { return !!(HG.ui && HG.ui.reducedMotion && HG.ui.reducedMotion()); }
+      function $(id) { return doc.getElementById(id); }
+
+      function init() {
+        doc.title = t('notFound.docTitle');
+        doc.addEventListener('hg:lang', function () { doc.title = t('notFound.docTitle'); });
+
+        // With the <base> from <head>, "#hg-main" would point at the home page: keep it on this page.
+        if (doc.documentElement.hasAttribute('data-hg-base')) {
+          var here = win.location.href.split('#')[0];
+          Array.prototype.forEach.call(doc.querySelectorAll('a[href^="#"]'), function (a) {
+            a.setAttribute('href', here + a.getAttribute('href'));
+          });
+        }
+
+        // The address that was not found (only the file name when opened from disk).
+        var url = $('nf-url');
+        if (url) {
+          var shown = '';
+          try {
+            var l = win.location;
+            shown = l.protocol === 'file:' ? l.pathname.split('/').pop() : decodeURIComponent(l.pathname + l.search);
+          } catch (e) { shown = ''; }
+          if (shown.length > 72) shown = '…' + shown.slice(-70);
+          url.textContent = shown || '/';
+        }
+
+        // Surprised Hamin (soft emoji fallback while the art is missing) + a few lines.
+        var hamin = $('nf-hamin');
+        var bubble = $('nf-bubble');
+        var line = 0;
+        if (hamin && HG.ui && HG.ui.img) {
+          var img = HG.ui.img('assets/character/bust/hamin-surprised.webp', { alt: '', emoji: '😮', kind: 'memory', className: 'nf-hamin__img' });
+          hamin.appendChild(img);
+          hamin.addEventListener('click', function () {
+            line = (line + 1) % LINES.length;
+            if (bubble) { bubble.setAttribute('data-i18n', LINES[line]); bubble.textContent = t(LINES[line]); }
+            try { if (HG.audio) HG.audio.sfx('pop', { rate: 1.2 }); } catch (e) { /* ignore */ }
+            if (!reduced()) { hamin.classList.remove('is-hop'); void hamin.offsetWidth; hamin.classList.add('is-hop'); }
+          });
+        }
+
+        // Faux search progress: fills up, then "Not here… ♡".
+        var search = $('nf-search');
+        var fill = $('nf-search-fill');
+        var label = $('nf-search-label');
+        function done() {
+          if (search) search.classList.add('is-done');
+          if (label) { label.setAttribute('data-i18n', 'notFound.notHere'); label.textContent = t('notFound.notHere'); }
+        }
+        if (fill) {
+          if (reduced()) { fill.style.width = '100%'; done(); }
+          else {
+            setTimeout(function () { fill.style.width = '100%'; }, 80);
+            setTimeout(done, 1950);
+          }
+        }
+      }
+
+      if (HG.onReady) HG.onReady(init);
+    })(window.HG = window.HG || {}, window, document);
+  </script>
+</body>
+</html>

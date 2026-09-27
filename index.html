@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN GAMES ★</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/portal.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="home">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap hp">
+    <h1 class="hg-sr-only" data-i18n="home.srTitle">HAMIN GAMES — fan-made mini-game portal</h1>
+
+    <!-- ═══ UPDATE ticker (static list in reduced motion) ═══ -->
+    <div class="hg-ticker hp-ticker" role="region" data-i18n-attr="aria-label:home.ticker.region">
+      <span class="hg-ticker__label hp-ticker__label" data-i18n="home.ticker.label">UPDATE ♡</span>
+      <div class="hg-ticker__viewport hp-ticker__viewport">
+        <ul class="hg-ticker__track hp-ticker__track" id="hp-ticker"></ul>
+      </div>
+      <button type="button" class="hp-ticker__pause" id="hp-ticker-pause" aria-pressed="false"
+              data-i18n-attr="aria-label:home.ticker.pause;title:home.ticker.pause">
+        <span aria-hidden="true">❚❚</span>
+      </button>
+    </div>
+
+    <div class="hp-layout">
+      <!-- ═══════════ LEFT SIDEBAR ═══════════ -->
+      <aside class="hp-col hp-col--left" data-i18n-attr="aria-label:home.colLeft">
+
+        <section class="hg-window hg-window--gold hp-side hp-status" aria-labelledby="hp-status-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-status-h" data-i18n="home.status.title">MY STATUS</h2></div>
+          <div class="hp-side__body" id="hp-status"></div>
+        </section>
+
+        <section class="hg-window hg-window--lavender hp-side hp-collect" aria-labelledby="hp-collect-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-collect-h" data-i18n="home.collect.title">COLLECTION</h2></div>
+          <div class="hp-side__body" id="hp-collect"></div>
+        </section>
+
+        <nav class="hg-window hg-window--mint hp-side hp-menu" aria-labelledby="hp-menu-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-menu-h" data-i18n="home.menu.title">GAME MENU</h2></div>
+          <ul class="hp-menu__list" id="hp-menu"></ul>
+        </nav>
+
+        <section class="hg-window hg-window--pink hp-side hp-achv" aria-labelledby="hp-achv-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-achv-h" data-i18n="home.achv.title">ACHIEVEMENTS</h2></div>
+          <div class="hp-side__body" id="hp-achv"></div>
+        </section>
+
+        <div class="hp-divider" aria-hidden="true"></div>
+      </aside>
+
+      <!-- ═══════════ MAIN COLUMN ═══════════ -->
+      <div class="hp-col hp-col--main">
+        <div class="hp-hero">
+          <section class="hg-window hg-window--pink hp-today" aria-labelledby="hp-today-h">
+            <div class="hg-window__title"><h2 class="hg-window__label" id="hp-today-h" data-i18n="home.today.title">TODAY’S HAMIN ♡</h2></div>
+            <div class="hp-today__body" id="hp-today"></div>
+          </section>
+
+          <section class="hp-event" aria-labelledby="hp-event-h">
+            <h2 class="hg-panel-header hg-panel-header--gold hp-event__head"><span id="hp-event-h" data-i18n="home.event.title">WEEKLY EVENT</span></h2>
+            <div class="hp-event__body" id="hp-event"></div>
+          </section>
+        </div>
+
+        <div class="hp-divider" aria-hidden="true"></div>
+
+        <section class="hp-sec hp-new" aria-labelledby="hp-new-h">
+          <div class="hg-panel-header hp-sec__head">
+            <h2 id="hp-new-h"><span data-i18n="home.newGames.title">NEW GAME</span> <span class="hg-badge hg-badge--new" data-i18n="common.new" aria-hidden="true">NEW!</span></h2>
+            <a class="hg-panel-header__more" href="#games" data-sfx="click" data-i18n="home.newGames.more">ALL GAMES ▶</a>
+          </div>
+          <ul class="hp-sec__body hp-new__list" id="hp-new"></ul>
+        </section>
+
+        <section class="hp-sec hp-hot" aria-labelledby="hp-hot-h">
+          <div class="hg-panel-header hg-panel-header--gold hp-sec__head">
+            <h2 id="hp-hot-h"><span data-i18n="home.hot.title">HOT GAME RANKING</span> <span class="hp-flame" aria-hidden="true">♨</span></h2>
+          </div>
+          <ol class="hp-sec__body hp-rank" id="hp-hot"></ol>
+        </section>
+
+        <section class="hp-sec hp-all" id="games" aria-labelledby="hp-all-h" tabindex="-1">
+          <div class="hg-panel-header hg-panel-header--blue hp-sec__head">
+            <h2 id="hp-all-h" data-i18n="home.all.title">ALL GAMES</h2>
+            <span class="hp-all__count" id="hp-all-count"></span>
+          </div>
+          <ul class="hp-sec__body hp-all__grid" id="hp-all"></ul>
+        </section>
+      </div>
+
+      <!-- ═══════════ RIGHT SIDEBAR ═══════════ -->
+      <aside class="hp-col hp-col--right" data-i18n-attr="aria-label:home.colRight">
+
+        <section class="hg-window hg-window--mint hp-side hp-room" aria-labelledby="hp-room-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-room-h" data-i18n="games.myRoom.title">HAMIN’S ROOM</h2></div>
+          <div class="hp-side__body" id="hp-room"></div>
+        </section>
+
+        <section class="hg-window hp-side hp-notice" aria-labelledby="hp-notice-h">
+          <div class="hg-window__title"><h2 class="hg-window__label" id="hp-notice-h" data-i18n="home.notice.title">NOTICE BOARD</h2></div>
+          <div class="hp-notice__paper">
+            <ol class="hp-notice__list" id="hp-notice"></ol>
+            <p class="hp-notice__foot" data-i18n="home.notice.readonly">Read-only board ♡</p>
+          </div>
+        </section>
+
+        <section class="hp-side hp-banners" aria-labelledby="hp-banners-h">
+          <h2 class="hg-panel-header hg-panel-header--lavender"><span id="hp-banners-h" data-i18n="home.banners.title">LINK ♡ BANNERS</span></h2>
+          <div class="hp-banners__body">
+            <span class="hp-twinkle hp-twinkle--1" aria-hidden="true">✦</span>
+            <span class="hp-twinkle hp-twinkle--2" aria-hidden="true">✧</span>
+            <span class="hp-twinkle hp-twinkle--3" aria-hidden="true">★</span>
+            <ul class="hp-88s">
+              <li class="hp-88 hp-88--love"><b data-i18n="home.banners.love.a">BEST VIEWED</b><i data-i18n="home.banners.love.b">WITH LOVE ♡</i></li>
+              <li class="hp-88 hp-88--since"><b data-i18n="home.banners.since.a">HAMIN GAMES</b><i data-i18n="home.banners.since.b">since 2006 ★</i></li>
+              <li class="hp-88 hp-88--handmade"><b data-i18n="home.banners.handmade.a">100%</b><i data-i18n="home.banners.handmade.b">HANDMADE</i></li>
+              <li class="hp-88 hp-88--noads"><b data-i18n="home.banners.noads.a">NO ADS</b><i data-i18n="home.banners.noads.b">NO LOGIN ♡</i></li>
+              <li class="hp-88 hp-88--y2k"><b data-i18n="home.banners.y2k.a">Y2K ✦</b><i data-i18n="home.banners.y2k.b">COMPATIBLE</i></li>
+              <li class="hp-88 hp-88--res"><b data-i18n="home.banners.res.a">800×600</b><i data-i18n="home.banners.res.b">LOOKS OK ♡</i></li>
+              <li class="hp-88 hp-88--milk"><b data-i18n="home.banners.milk.a">POWERED BY</b><i data-i18n="home.banners.milk.b">🍓 MILK</i></li>
+              <li class="hp-88 hp-88--sheep"><b data-i18n="home.banners.sheep.a">SHEEP</b><i data-i18n="home.banners.sheep.b">FRIENDLY 🐑</i></li>
+            </ul>
+            <div class="hp-divider" aria-hidden="true"></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-home.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

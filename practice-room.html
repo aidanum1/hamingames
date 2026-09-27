@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN PRACTICE ROOM ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/practice-room.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="practice-room">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap pr">
+
+    <!-- ═══ Game shell: LCD status strip · canvas lanes + Hamin · lane buttons · overlays ═══ -->
+    <section class="hg-gameshell pr-shell" id="game">
+      <div class="hg-gameshell__stage pr-stage">
+
+        <div class="pr-lcd" id="pr-lcd">
+          <p class="pr-lcd__song">
+            <span class="pr-lcd__note" aria-hidden="true">♪</span>
+            <span class="pr-lcd__label hg-sr-only" data-i18n="practice.hud.song">NOW PLAYING</span>
+            <b class="pr-lcd__title" id="pr-lcd-title">—</b>
+            <span class="pr-lcd__diff" id="pr-lcd-diff"></span>
+          </p>
+          <p class="pr-lcd__cell">
+            <span class="pr-lcd__label" data-i18n="practice.hud.score">SCORE</span>
+            <b class="pr-lcd__num" id="pr-score">0</b>
+          </p>
+          <p class="pr-lcd__cell pr-lcd__cell--acc">
+            <span class="pr-lcd__label" data-i18n="practice.hud.acc">ACC</span>
+            <b class="pr-lcd__num" id="pr-acc">100.0%</b>
+          </p>
+          <button type="button" class="pr-lcd__pause" id="pr-pause-btn" disabled
+                  data-i18n-attr="aria-label:practice.hud.pause;title:practice.hud.pause"><span aria-hidden="true">❚❚</span></button>
+        </div>
+
+        <div class="pr-field" id="pr-field" tabindex="-1">
+          <canvas class="pr-canvas hg-stage-canvas" id="pr-canvas" role="img"
+                  data-i18n-attr="aria-label:practice.canvas">♪</canvas>
+          <div class="hg-countdown pr-count" id="pr-count" aria-hidden="true"></div>
+        </div>
+
+        <div class="pr-pads">
+          <div class="pr-pads__row" id="pr-pads-row" role="group" data-i18n-attr="aria-label:practice.lane.group">
+            <button type="button" class="pr-pad pr-pad--0" data-lane="0" data-i18n-attr="aria-label:practice.lane.left">
+              <span class="pr-pad__arrow" aria-hidden="true">←</span><span class="pr-pad__key" aria-hidden="true">D</span></button>
+            <button type="button" class="pr-pad pr-pad--1" data-lane="1" data-i18n-attr="aria-label:practice.lane.down">
+              <span class="pr-pad__arrow" aria-hidden="true">↓</span><span class="pr-pad__key" aria-hidden="true">F</span></button>
+            <button type="button" class="pr-pad pr-pad--2" data-lane="2" data-i18n-attr="aria-label:practice.lane.up">
+              <span class="pr-pad__arrow" aria-hidden="true">↑</span><span class="pr-pad__key" aria-hidden="true">J</span></button>
+            <button type="button" class="pr-pad pr-pad--3" data-lane="3" data-i18n-attr="aria-label:practice.lane.right">
+              <span class="pr-pad__arrow" aria-hidden="true">→</span><span class="pr-pad__key" aria-hidden="true">K</span></button>
+          </div>
+        </div>
+
+        <!-- Song select -->
+        <div class="hg-overlay pr-overlay pr-menu" id="pr-menu">
+          <section class="hg-window hg-window--pink pr-menu__win" aria-labelledby="pr-menu-title">
+            <div class="hg-window__title"><h2 class="hg-window__label" id="pr-menu-title" data-i18n="practice.menu.title">SONG SELECT ♪</h2></div>
+            <div class="pr-menu__body">
+              <p class="pr-menu__hello">
+                <span class="pr-menu__bubble" aria-hidden="true">🎧</span>
+                <span data-i18n="practice.menu.hello">Pick a song and practice with Hamin!</span>
+              </p>
+              <div class="hg-tabs pr-diffs" id="pr-diffs" role="tablist" data-i18n-attr="aria-label:practice.menu.diffLabel">
+                <button type="button" class="hg-tab pr-diff pr-diff--easy" role="tab" data-diff="easy" aria-controls="pr-songs">
+                  <span data-i18n="practice.diff.easy">EASY</span> <span class="pr-diff__stars" aria-hidden="true">★</span></button>
+                <button type="button" class="hg-tab pr-diff pr-diff--normal" role="tab" data-diff="normal" aria-controls="pr-songs">
+                  <span data-i18n="practice.diff.normal">NORMAL</span> <span class="pr-diff__stars" aria-hidden="true">★★</span></button>
+                <button type="button" class="hg-tab pr-diff pr-diff--hard" role="tab" data-diff="hard" aria-controls="pr-songs">
+                  <span data-i18n="practice.diff.hard">HARD</span> <span class="pr-diff__stars" aria-hidden="true">★★★</span></button>
+              </div>
+              <div class="pr-songs" id="pr-songs" role="radiogroup" data-i18n-attr="aria-label:practice.menu.songs"></div>
+              <div class="pr-menu__foot">
+                <div class="pr-menu__tools">
+                  <button type="button" class="hg-btn hg-btn--small hg-btn--blue" id="pr-timing" data-sfx="click">
+                    <span aria-hidden="true">⏱</span> <span id="pr-timing-label">TIMING ±0 ms</span></button>
+                  <button type="button" class="hg-btn hg-btn--small hg-btn--mint" id="pr-howto" data-sfx="click">
+                    <span aria-hidden="true">?</span> <span data-i18n="practice.menu.howTo">HOW TO PLAY</span></button>
+                </div>
+                <button type="button" class="hg-btn hg-btn--pink hg-btn--big pr-menu__start" id="pr-start" data-sfx="click"
+                        data-i18n="practice.menu.start">START ▶</button>
+              </div>
+              <p class="pr-menu__keys">
+                <span class="pr-keys pr-keys--kbd" data-i18n="practice.menu.keys">Keys: ← ↓ ↑ → or D F J K · Pause: P / Esc</span>
+                <span class="pr-keys pr-keys--touch" data-i18n="practice.menu.keysTouch">Tap the big buttons when an arrow reaches the line!</span>
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Pause -->
+        <div class="hg-overlay hg-overlay--dim pr-overlay" id="pr-pause" hidden>
+          <section class="hg-window hg-window--lavender hg-pause pr-pause" aria-labelledby="pr-pause-title">
+            <div class="hg-window__title"><h2 class="hg-window__label" id="pr-pause-title" data-i18n="practice.pause.title">PAUSED</h2></div>
+            <p class="hg-pause__title" aria-hidden="true">❚❚</p>
+            <div class="hg-pause__actions">
+              <button type="button" class="hg-btn hg-btn--pink hg-btn--big" id="pr-resume" data-sfx="click" data-i18n="practice.pause.resume">RESUME ▶</button>
+              <button type="button" class="hg-btn hg-btn--blue" id="pr-restart" data-sfx="click" data-i18n="practice.pause.restart">RESTART</button>
+              <button type="button" class="hg-btn" id="pr-quit" data-sfx="click" data-i18n="practice.pause.quit">SONG SELECT</button>
+            </div>
+            <p class="pr-pause__hint" data-i18n="practice.pause.hint">P / Esc: resume</p>
+          </section>
+        </div>
+
+        <!-- Results (filled by js/practice-room.js) -->
+        <div class="hg-overlay pr-overlay pr-results" id="pr-result" hidden></div>
+      </div>
+    </section>
+
+    <!-- ═══ Little side windows: practice log + rank guide ═══ -->
+    <div class="pr-info">
+      <section class="hg-window hg-window--lavender pr-log-win" aria-labelledby="pr-log-title">
+        <div class="hg-window__title"><h2 class="hg-window__label" id="pr-log-title" data-i18n="practice.log.title">PRACTICE LOG ♪</h2></div>
+        <dl class="pr-log" id="pr-log"></dl>
+      </section>
+      <section class="hg-window hg-window--mint pr-guide" aria-labelledby="pr-guide-title">
+        <div class="hg-window__title"><h2 class="hg-window__label" id="pr-guide-title" data-i18n="practice.guide.title">RANK GUIDE</h2></div>
+        <ul class="pr-guide__list">
+          <li><b class="pr-rank pr-rank--S" aria-hidden="true">S</b> <span data-i18n="practice.guide.s">95%+ and no MISS</span></li>
+          <li><b class="pr-rank pr-rank--A" aria-hidden="true">A</b> <span data-i18n="practice.guide.a">85%+</span></li>
+          <li><b class="pr-rank pr-rank--B" aria-hidden="true">B</b> <span data-i18n="practice.guide.b">70%+</span></li>
+          <li><b class="pr-rank pr-rank--C" aria-hidden="true">C</b> <span data-i18n="practice.guide.c">50%+ (clear!)</span></li>
+        </ul>
+        <p class="pr-guide__music" data-i18n="practice.guide.music">All songs are original chiptunes ♪</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-practice-room.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="data/songs.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/practice-room.js"></script>
+</body>
+</html>

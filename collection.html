@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>COLLECTION ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/collection.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="collection">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap cl">
+
+    <!-- ═══ Album cover: COLLECTION 42 / 100 42% + milestones + wallet ═══ -->
+    <section class="hg-window hg-window--pink cl-head" aria-labelledby="cl-title">
+      <div class="hg-window__title"><h1 class="hg-window__label" id="cl-title" data-i18n="collection.title">COLLECTION ALBUM ♡</h1></div>
+      <div class="cl-head__body">
+        <div class="cl-summary">
+          <p class="cl-summary__line">
+            <span class="cl-summary__label" data-i18n="collection.label">COLLECTION</span>
+            <b class="cl-summary__count" id="cl-count">0 / 0</b>
+            <b class="cl-summary__pct"><span id="cl-pct">0</span><small>%</small></b>
+          </p>
+          <div class="cl-bar" id="cl-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="cl-bar__fill" id="cl-bar-fill"></span>
+            <span class="cl-bar__marks" id="cl-marks" aria-hidden="true"></span>
+          </div>
+          <p class="cl-summary__next" id="cl-next"></p>
+          <p class="cl-summary__note" data-i18n="collection.note">Starter items are gifts ♡ They aren’t counted in the %.</p>
+        </div>
+
+        <div class="cl-wallet">
+          <p class="cl-wallet__title" data-i18n="collection.wallet.title">MY H-POINT</p>
+          <p class="cl-wallet__num"><span class="cl-coin" aria-hidden="true">H</span><b id="cl-hp">0</b></p>
+          <p class="cl-wallet__earned" id="cl-hp-earned"></p>
+          <p class="cl-wallet__note" data-i18n="collection.wallet.note">H-POINT is a game point, not real money.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Album: index tabs + one tab panel ═══ -->
+    <section class="cl-album" aria-labelledby="cl-title">
+      <div class="hg-tabs cl-tabs" id="cl-tabs" role="tablist" data-i18n-attr="aria-label:collection.tabs.label"></div>
+      <div class="cl-panel" id="cl-panel" role="tabpanel" tabindex="-1"></div>
+    </section>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-collection.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/collection.js"></script>
+</body>
+</html>

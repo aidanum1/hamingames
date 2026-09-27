@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HAMIN DRESS UP ♡ HAMIN GAMES</title>
+  <meta name="description" content="Fan-made retro Hamin mini-game portal (unofficial, non-commercial)">
+  <meta name="theme-color" content="#ffc9de">
+  <link rel="icon" href="assets/ui/favicon.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/dress-up.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="dress-up">
+  <div id="hg-header"></div>
+
+  <main id="hg-main" class="hg-wrap du">
+    <section id="game" class="du-shell">
+      <div class="hg-gameshell__stage du-game" id="du-game">
+
+        <!-- ═══ Mode switch + challenge brief ═══ -->
+        <div class="du-top">
+          <div class="du-modes" role="group" data-i18n-attr="aria-label:dressUp.mode.label">
+            <button type="button" class="du-mode is-on" id="du-mode-free" data-mode="free" aria-pressed="true">
+              <span class="du-mode__icon" aria-hidden="true">👗</span>
+              <span class="du-mode__label" data-i18n="dressUp.mode.free">FREE DRESS-UP</span>
+            </button>
+            <button type="button" class="du-mode" id="du-mode-challenge" data-mode="challenge" aria-pressed="false">
+              <span class="du-mode__icon" aria-hidden="true">🏆</span>
+              <span class="du-mode__label" data-i18n="dressUp.mode.challenge">STYLE CHALLENGE</span>
+            </button>
+          </div>
+          <div class="du-brief" id="du-brief"></div>
+        </div>
+
+        <div class="du-main">
+          <!-- ═══ Left: closet drawers (category tabs) ═══ -->
+          <nav class="hg-window hg-window--lavender du-cats" aria-labelledby="du-cats-h">
+            <div class="hg-window__title du-cats__title">
+              <h2 class="hg-window__label" id="du-cats-h" data-i18n="dressUp.cats.title">CLOSET</h2>
+            </div>
+            <div class="du-cats__list" id="du-cats" role="tablist" aria-orientation="vertical"
+                 data-i18n-attr="aria-label:dressUp.cats.label"></div>
+          </nav>
+
+          <!-- ═══ Center: the mirror stage ═══ -->
+          <div class="du-center">
+            <section class="hg-window hg-window--pink du-mirror" aria-labelledby="du-mirror-h">
+              <div class="hg-window__title du-mirror__title">
+                <h2 class="hg-window__label" id="du-mirror-h" data-i18n="dressUp.mirror.title">MIRROR ♡</h2>
+                <button type="button" class="du-zoom" id="du-zoom" aria-pressed="false"
+                        data-i18n-attr="aria-label:dressUp.mirror.zoomIn;title:dressUp.mirror.zoomIn">
+                  <span aria-hidden="true">🔍</span>
+                </button>
+              </div>
+              <div class="du-frame" id="du-frame">
+                <div class="du-view" id="du-view" role="img" aria-label="Hamin">
+                  <div class="du-zoomer" id="du-zoomer">
+                    <div class="du-bgfill" aria-hidden="true"></div>
+                    <div class="du-figure" id="du-figure"></div>
+                    <p class="du-placeholder" aria-hidden="true">
+                      <span class="du-placeholder__art">🧍</span>
+                      <span class="du-placeholder__text" data-i18n="dressUp.mirror.missing">Hamin is getting ready…</span>
+                    </p>
+                  </div>
+                  <p class="du-ribbon" id="du-ribbon" hidden></p>
+                  <p class="du-today" aria-hidden="true">
+                    <span class="du-today__top" data-i18n="dressUp.mirror.today">TODAY’S STYLE</span>
+                    <span class="du-today__tag" id="du-today-tag"></span>
+                  </p>
+                  <span class="du-datestamp" id="du-datestamp" aria-hidden="true"></span>
+                  <span class="du-twinkle du-twinkle--1" aria-hidden="true">✦</span>
+                  <span class="du-twinkle du-twinkle--2" aria-hidden="true">✧</span>
+                  <span class="du-twinkle du-twinkle--3" aria-hidden="true">♡</span>
+                </div>
+                <button type="button" class="du-poke" id="du-poke"
+                        data-i18n-attr="aria-label:dressUp.mirror.poke;title:dressUp.mirror.poke"></button>
+              </div>
+            </section>
+            <div class="du-meter" id="du-meter" role="group" data-i18n-attr="aria-label:dressUp.meter.label"></div>
+          </div>
+
+          <!-- ═══ Right: item grid ═══ -->
+          <section class="hg-window du-closet" id="du-closet" aria-labelledby="du-closet-h">
+            <div class="hg-window__title du-closet__title">
+              <span class="du-closet__icon" id="du-closet-icon" aria-hidden="true">👕</span>
+              <h2 class="hg-window__label" id="du-closet-h">…</h2>
+              <span class="du-closet__count" id="du-closet-count"></span>
+            </div>
+            <div class="du-grid" id="du-grid" role="tabpanel" aria-labelledby="du-closet-h"></div>
+            <div class="du-info" id="du-info" aria-live="off"></div>
+            <div class="hg-tooltip du-tip" id="du-tip" hidden aria-hidden="true"></div>
+          </section>
+        </div>
+
+        <!-- ═══ Actions (desktop strip / mobile bottom bar) ═══ -->
+        <div class="du-actions" id="du-actions" role="group" data-i18n-attr="aria-label:dressUp.actions.label">
+          <button type="button" class="hg-btn hg-btn--blue du-act" id="du-random" data-act="random">
+            <span class="du-act__icon" aria-hidden="true">🎲</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.random">RANDOM</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.randomS" aria-hidden="true">RANDOM</span>
+          </button>
+          <button type="button" class="hg-btn du-act" id="du-reset" data-act="reset">
+            <span class="du-act__icon" aria-hidden="true">↺</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.reset">RESET</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.resetS" aria-hidden="true">RESET</span>
+          </button>
+          <span class="du-actions__gap" aria-hidden="true"></span>
+          <button type="button" class="hg-btn hg-btn--mint du-act" id="du-save" data-act="save">
+            <span class="du-act__icon" aria-hidden="true">💾</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.save">SAVE LOOK</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.saveS" aria-hidden="true">SAVE</span>
+          </button>
+          <button type="button" class="hg-btn hg-btn--lavender du-act" id="du-looks" data-act="looks">
+            <span class="du-act__icon" aria-hidden="true">📒</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.looks">MY LOOKS</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.looksS" aria-hidden="true">LOOKS</span>
+            <span class="du-act__count" id="du-looks-count"></span>
+          </button>
+          <button type="button" class="hg-btn hg-btn--gold du-act" id="du-photo" data-act="photo">
+            <span class="du-act__icon" aria-hidden="true">📸</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.photo">PHOTO BOOTH ♡</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.photoS" aria-hidden="true">PHOTO</span>
+          </button>
+          <button type="button" class="hg-btn hg-btn--pink du-act du-act--done" id="du-done" data-act="done" hidden
+                  data-i18n-attr="title:dressUp.actions.doneLabel">
+            <span class="du-act__icon" aria-hidden="true">♡</span>
+            <span class="du-act__label" data-i18n="dressUp.actions.done">DONE ♡</span>
+            <span class="du-act__short" data-i18n="dressUp.actions.doneS" aria-hidden="true">DONE ♡</span>
+          </button>
+        </div>
+
+        <!-- ═══ Mobile: mini mirror when the stage is scrolled away ═══ -->
+        <button type="button" class="du-mini" id="du-mini" hidden
+                data-i18n-attr="aria-label:dressUp.mirror.mini;title:dressUp.mirror.mini">
+          <span class="du-mini__view" id="du-mini-view"></span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div id="hg-footer"></div>
+
+  <script src="data/translations.js"></script>
+  <script src="data/translations-items.js"></script>
+  <script src="data/translations-wardrobe.js"></script>
+  <script src="data/translations-dress-up.js"></script>
+  <script src="data/catalog.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/wardrobe.js"></script>
+  <script src="data/stickers.js"></script>
+  <script src="data/room-items.js"></script>
+  <script src="data/collectibles.js"></script>
+  <script src="data/achievements.js"></script>
+  <script src="data/unlock-rules.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/unlocks.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/look.js"></script>
+  <script src="js/dress-up.js"></script>
+</body>
+</html>
